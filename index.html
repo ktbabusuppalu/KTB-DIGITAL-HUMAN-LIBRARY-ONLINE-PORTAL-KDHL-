@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTB Digital Human Library On-Line (KDHL) | KTB Digital Services</title>
+
+    <meta name="description" content="KDHL On-line: 15-minute 1-on-1 peer discussions strictly focused on digital product creations, technical scope, and skill expansion by KTB Digital Services, Bengaluru.">
+    <meta name="author" content="KTB Digital Services, Bengaluru">
+    <meta property="og:type" content="website">
+    <meta property="og:title" coAntent="KTB DIGITAL HUMAN LIBRARY On-Line (KDHL On-line)">
+    <meta property="og:description" content="Join 15-minute 1-on-1 digital product discussion sessions. Book your schedule between Nov 1 - Dec 31, 2026.">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#090d16',
+                        },
+                        brand: {
+                            indigo: '#6366f1',
+                            teal: '#14b8a6',
+                            emerald: '#10b981',
+                            amber: '#f59e0b',
+                            rose: '#f43f5e',
+                            cyan: '#06b6d4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #090d16;
+            color: #f1f5f9;
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0f172a;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .calendar-day {
+            transition: all 0.2s ease;
+        }
+        .calendar-day:not(.disabled):hover {
+            transform: scale(1.08);
+            z-index: 10;
+        }
+        .calendar-day.selected {
+            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%) !important;
+            color: #ffffff !important;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
+        }
+
+        .slot-chip {
+            transition: all 0.2s ease;
+        }
+        .slot-chip:hover:not(.selected) {
+            border-color: #6366f1;
+            background-color: rgba(99, 102, 241, 0.15);
+            transform: translateY(-1px);
+        }
+        .slot-chip.selected {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+            font-weight: 600;
+        }
+
+        .nav-tab {
+            transition: all 0.25s ease;
+        }
+        .nav-tab.active {
+            background: linear-gradient(135deg, #6366f1 0%, #0d9488 100%);
+            color: #ffffff;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+        .tab-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .glass-card { background: white !important; border: none !important; box-shadow: none !important; }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- STICKY HEADER (LOGO PLACEMENT 1 OF 2) -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-1.5 bg-white/10 rounded-xl border border-white/20 backdrop-blur-md shadow-lg">
+                    <!-- LOGO INSTANCE 1 -->
+                    <img src="https://raw.githubusercontent.com/ktbabusuppalu/KTB-DIGITAL-HUMAN-LIBRARY-On-Line/main/LOGO.png" 
+                         alt="KTB Digital Services Logo" 
+                         class="h-10 sm:h-12 w-auto object-contain rounded-lg bg-white p-1"
+                         onerror="this.onerror=null; this.src='https://placehold.co/120x50/ffffff/0f172a?text=KTB+Logo';">
+                </div>
+                <div>
+                    <span class="text-xs font-bold text-cyan-400 tracking-wider uppercase block">Modern Human Library Platform</span>
+                    <h1 class="text-base sm:text-lg font-extrabold text-white tracking-tight">KTB DIGITAL SERVICES</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-1.5 sm:gap-2 text-xs font-medium bg-slate-800/80 p-1 rounded-xl border border-slate-700/80">
+                <button onclick="switchTab('booking')" id="tab-btn-booking" class="nav-tab active px-3 py-2 rounded-lg flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span class="hidden sm:inline">Booking Platform</span>
+                </button>
+                <button onclick="switchTab('email')" id="tab-btn-email" class="nav-tab px-3 py-2 rounded-lg flex items-center gap-2">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    <span class="hidden sm:inline">Session Confirmation</span>
+                </button>
+                <button onclick="switchTab('support')" id="tab-btn-support" class="nav-tab px-3 py-2 rounded-lg flex items-center gap-2">
+                    <i class="fa-solid fa-headset"></i>
+                    <span class="hidden sm:inline">Support & Legal</span>
+                </button>
+                <button onclick="switchTab('terms')" id="tab-btn-terms" class="nav-tab px-3 py-2 rounded-lg flex items-center gap-2">
+                    <i class="fa-solid fa-file-contract"></i>
+                    <span class="hidden sm:inline">Terms & Refund</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6">
+
+        <!-- HERO BRANDING BANNER (NO LOGO HERE) -->
+        <div class="glass-card rounded-3xl p-6 sm:p-8 mb-8 relative overflow-hidden text-center border border-slate-800">
+            <div class="absolute -right-20 -top-20 w-72 h-72 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-teal-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 space-y-3">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold tracking-wide uppercase">
+                    <i class="fa-solid fa-brain text-indigo-400"></i> Modern Human Library Portal • Digital Knowledge Exchange
+                </div>
+
+                <h2 class="text-2xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-teal-200 to-emerald-300 uppercase tracking-tight pt-2">
+                    KTB Digital Human Library On-Line (KDHL)
+                </h2>
+                <p class="max-w-3xl mx-auto text-xs sm:text-sm text-slate-300 font-medium leading-relaxed">
+                    1-on-1 human communication is the ultimate catalyst for learning and technical mastery. Connect through 15-minute live interactive sessions on digital products related to health, nutrition, 72 elements, web software, internet applications, regional guides, and educational frameworks.
+                </p>
+                <div class="pt-2 flex flex-wrap justify-center gap-4 text-xs font-semibold text-slate-400">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-indigo-400"></i> KTB Digital Services, Bengaluru</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-clock text-teal-400"></i> IST (UTC +05:30)</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-indian-rupee-sign text-emerald-400"></i> INR 199.00 / Session</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: BOOKING PLATFORM MODULE -->
+        <div id="panel-booking" class="tab-panel active">
+            <div class="glass-card rounded-3xl p-4 sm:p-8 space-y-8">
+                
+                <div class="p-4 rounded-xl bg-indigo-950/40 border-l-4 border-indigo-500 text-xs sm:text-sm text-slate-300 leading-relaxed flex items-start gap-3">
+                    <i class="fa-solid fa-circle-info text-indigo-400 text-lg mt-0.5"></i>
+                    <div>
+                        <strong class="text-indigo-200 font-bold block mb-0.5">📌 KDHL Platform Overview:</strong>
+                        KDHL On-line is an exclusive 1-on-1 discussion platform hosted by <strong>KTB Digital Services, Bengaluru</strong>. Engage in focused 15-minute interactive sessions strictly centered on digital product creations, technical scope, and skill expansion.
+                    </div>
+                </div>
+
+                <form id="kdhlForm" onsubmit="sendRegistration(event)" class="space-y-8">
+                    
+                    <!-- SECTION 1: PARTICIPANT INFORMATION -->
+                    <section class="space-y-4">
+                        <div class="flex items-center gap-2 pb-2 border-b border-indigo-500/40">
+                            <span class="w-7 h-7 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wide">Participant Information</h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label for="fullName" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                                    Full Name <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-user absolute left-3 top-3 text-slate-500 text-sm"></i>
+                                    <input type="text" id="fullName" placeholder="Enter your full name" required
+                                           class="w-full pl-9 pr-3 py-2.5 text-sm rounded-lg bg-slate-900/80 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="age" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                                    Age (6 years and above) <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-cake-candles absolute left-3 top-3 text-slate-500 text-sm"></i>
+                                    <input type="number" id="age" min="6" max="120" placeholder="Enter age" required
+                                           class="w-full pl-9 pr-3 py-2.5 text-sm rounded-lg bg-slate-900/80 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <div class="form-group md:col-span-2">
+                                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                                    Gender <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="flex flex-wrap gap-4 pt-1">
+                                    <label class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-700 bg-slate-900/60 cursor-pointer hover:bg-slate-800 transition-all">
+                                        <input type="radio" name="gender" value="Male" required class="text-indigo-600 focus:ring-indigo-500">
+                                        <span class="text-sm font-medium text-slate-300"><i class="fa-solid fa-mars text-blue-400 mr-1"></i> Male</span>
+                                    </label>
+                                    <label class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-700 bg-slate-900/60 cursor-pointer hover:bg-slate-800 transition-all">
+                                        <input type="radio" name="gender" value="Female" class="text-indigo-600 focus:ring-indigo-500">
+                                        <span class="text-sm font-medium text-slate-300"><i class="fa-solid fa-venus text-pink-400 mr-1"></i> Female</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 2: CATEGORY & LANGUAGE -->
+                    <section class="space-y-4">
+                        <div class="flex items-center gap-2 pb-2 border-b border-teal-500/40">
+                            <span class="w-7 h-7 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-sm">2</span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wide">Session Category & Language</h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label for="sessionType" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                                    Session Category <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-users absolute left-3 top-3 text-slate-500 text-sm"></i>
+                                    <select id="sessionType" required
+                                            class="w-full pl-9 pr-8 py-2.5 text-sm rounded-lg bg-slate-900/80 border border-slate-700 text-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all appearance-none">
+                                        <option value="" class="bg-slate-900">-- Select Session --</option>
+                                        <option value="Session A: Male To Male (MTM)" class="bg-slate-900">Session A: Male To Male (MTM)</option>
+                                        <option value="Session B: Female To Female (FTF)" class="bg-slate-900">Session B: Female To Female (FTF)</option>
+                                        <option value="Session C: Female To Male / Male To Female (FTM/MTF)" class="bg-slate-900">Session C: Female To Male / Male To Female (FTM/MTF)</option>
+                                        <option value="Session D: Male/Female To KTB Digital Services (M/F/KTBS)" class="bg-slate-900">Session D: Male/Female To KTB Digital Services (M/F/KTBS)</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down absolute right-3 top-3 text-slate-500 text-xs pointer-events-none"></i>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="language" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                                    Preferred Language <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-language absolute left-3 top-3 text-slate-500 text-sm"></i>
+                                    <select id="language" required
+                                            class="w-full pl-9 pr-8 py-2.5 text-sm rounded-lg bg-slate-900/80 border border-slate-700 text-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all appearance-none">
+                                        <option value="" class="bg-slate-900">-- Select Language --</option>
+                                        <option value="KDHL-Kannada" class="bg-slate-900">KDHL-Kannada</option>
+                                        <option value="KDHL-TELUGU" class="bg-slate-900">KDHL-TELUGU</option>
+                                        <option value="KDHL-TAMIL" class="bg-slate-900">KDHL-TAMIL</option>
+                                        <option value="KDHL-MALAYALAM" class="bg-slate-900">KDHL-MALAYALAM</option>
+                                        <option value="KDHL-HINDI" class="bg-slate-900">KDHL-HINDI</option>
+                                        <option value="KDHL-ENGLISH" class="bg-slate-900">KDHL-ENGLISH</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down absolute right-3 top-3 text-slate-500 text-xs pointer-events-none"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 3: SCHEDULE & TIME SLOTS -->
+                    <section class="space-y-6">
+                        <div class="flex items-center gap-2 pb-2 border-b border-emerald-500/40">
+                            <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">3</span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wide">Schedule Selection (Nov 1 – Dec 31, 2026)</h3>
+                        </div>
+
+                        <div class="bg-slate-900 p-4 rounded-xl flex flex-wrap items-center justify-between gap-3 border border-slate-800">
+                            <div>
+                                <span class="text-xs text-emerald-400 uppercase font-semibold tracking-wider block">Selected Date</span>
+                                <div id="selectedDateDisplay" class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                                    <i class="fa-regular fa-calendar-check text-emerald-400"></i>
+                                    <span>Please select a date from calendar below</span>
+                                </div>
+                            </div>
+                            <span class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-full font-medium">
+                                2-Month Availability Window
+                            </span>
+                        </div>
+
+                        <!-- 2-MONTH INTERACTIVE CALENDAR -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-4 sm:p-5 rounded-2xl border border-slate-800">
+                            <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+                                <div class="text-center font-bold text-white text-base mb-3 pb-2 border-b border-slate-800 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-calendar-days text-indigo-400"></i>
+                                    November 2026
+                                </div>
+                                <div class="grid grid-cols-7 gap-1 text-center font-bold text-slate-400 text-xs mb-2">
+                                    <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                                </div>
+                                <div id="nov2026Grid" class="grid grid-cols-7 gap-1 text-center text-xs"></div>
+                            </div>
+
+                            <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+                                <div class="text-center font-bold text-white text-base mb-3 pb-2 border-b border-slate-800 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-calendar-days text-teal-400"></i>
+                                    December 2026
+                                </div>
+                                <div class="grid grid-cols-7 gap-1 text-center font-bold text-slate-400 text-xs mb-2">
+                                    <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                                </div>
+                                <div id="dec2026Grid" class="grid grid-cols-7 gap-1 text-center text-xs"></div>
+                            </div>
+                        </div>
+
+                        <!-- 14 TIME SLOTS ACROSS 6 TIME BLOCKS -->
+                        <div class="space-y-4 pt-2">
+                            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+                                Select Preferred Time Slot (15-Min Duration) <span class="text-rose-500">*</span>
+                            </label>
+
+                            <div id="timeSlotsContainer" class="space-y-4">
+                                <div>
+                                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-sun text-amber-400"></i> KDHL Early Hours
+                                    </span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                        <button type="button" data-slot="Early - Slot 1 (5:00 AM - 5:15 AM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 1: 5:00 AM – 5:15 AM</button>
+                                        <button type="button" data-slot="Early - Slot 2 (6:00 AM - 6:15 AM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 2: 6:00 AM – 6:15 AM</button>
+                                        <button type="button" data-slot="Early - Slot 3 (7:00 AM - 7:15 AM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 3: 7:00 AM – 7:15 AM</button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-cloud-sun text-amber-400"></i> KDHL Morning Hours
+                                    </span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        <button type="button" data-slot="Morning - Slot 1 (9:00 AM - 9:15 AM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 1: 9:00 AM – 9:15 AM</button>
+                                        <button type="button" data-slot="Morning - Slot 2 (10:00 AM - 10:15 AM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 2: 10:00 AM – 10:15 AM</button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-sun-plant-wilt text-amber-500"></i> KDHL Noon Hours
+                                    </span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        <button type="button" data-slot="Noon - Slot 1 (11:00 AM - 11:15 AM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 1: 11:00 AM – 11:15 AM</button>
+                                        <button type="button" data-slot="Noon - Slot 2 (12:00 PM - 12:15 PM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 2: 12:00 PM – 12:15 PM</button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-cloud-moon text-indigo-400"></i> KDHL Evening Hours
+                                    </span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        <button type="button" data-slot="Evening - Slot 1 (4:00 PM - 4:15 PM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 1: 4:00 PM – 4:15 PM</button>
+                                        <button type="button" data-slot="Evening - Slot 2 (5:00 PM - 5:15 PM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 2: 5:00 PM – 5:15 PM</button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-moon text-indigo-500"></i> KDHL Night Hours
+                                    </span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                        <button type="button" data-slot="Night - Slot 1 (7:00 PM - 7:15 PM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 1: 7:00 PM – 7:15 PM</button>
+                                        <button type="button" data-slot="Night - Slot 2 (8:00 PM - 8:15 PM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 2: 8:00 PM – 8:15 PM</button>
+                                        <button type="button" data-slot="Night - Slot 3 (9:00 PM - 9:15 PM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 3: 9:00 PM – 9:15 PM</button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-star text-indigo-600"></i> KDHL Late Night Hours
+                                    </span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        <button type="button" data-slot="Late Night - Slot 1 (10:00 PM - 10:15 PM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 1: 10:00 PM – 10:15 PM</button>
+                                        <button type="button" data-slot="Late Night - Slot 2 (11:00 PM - 11:15 PM)" class="slot-chip text-xs py-2 px-3 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 font-medium text-center">Slot 2: 11:00 PM – 11:15 PM</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group pt-2">
+                            <label for="topic" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                                Digital Product Topic Focus <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lightbulb absolute left-3 top-3 text-slate-500 text-sm"></i>
+                                <input type="text" id="topic" placeholder="e.g., Health, Academics, 72 Elements, Mobile Apps, Cooking, Singing, Dancing, E-books, AI, Generative AI, etc,." required
+                                       class="w-full pl-9 pr-3 py-2.5 text-sm rounded-lg bg-slate-900/80 border border-slate-700 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 4: PAYMENT SECTION -->
+                    <section class="space-y-4">
+                        <div class="flex items-center gap-2 pb-2 border-b border-amber-500/40">
+                            <span class="w-7 h-7 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-sm">4</span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wide">Fee Payment & Razorpay QR Code</h3>
+                        </div>
+
+                        <div class="bg-amber-950/20 border-2 border-dashed border-amber-500/40 p-5 rounded-2xl text-center space-y-4">
+                            <div class="inline-block bg-rose-600 text-white text-xs font-extrabold px-4 py-1.5 rounded-full shadow-lg">
+                                Mandatory Fee: INR 199.00
+                            </div>
+
+                            <p class="text-xs sm:text-sm font-medium text-slate-300">
+                                Scan & Pay using GPay, PhonePe, Paytm, BHIM UPI:
+                            </p>
+
+                            <div class="inline-block p-2 bg-white rounded-xl shadow-xl border border-slate-700">
+                                <img src="https://github.com/ktbabusuppalu/KTB-DIGITAL-HUMAN-LIBRARY-On-Line/blob/main/RAZORPAY%20QR%20CODES.png?raw=true" 
+                                     alt="BHIM UPI Razorpay QR Code" 
+                                     class="max-w-[180px] sm:max-w-[200px] h-auto rounded-lg mx-auto"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/200x200/ffffff/0f172a?text=Razorpay+UPI+QR'">
+                            </div>
+
+                            <div class="max-w-md mx-auto text-left pt-2">
+                                <label for="utr" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                                    Payment UTR / Ref Number <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-receipt absolute left-3 top-3 text-slate-500 text-sm"></i>
+                                    <input type="text" id="utr" placeholder="Enter 12-digit UPI UTR Number" required
+                                           class="w-full pl-9 pr-3 py-2.5 text-sm rounded-lg bg-slate-900/80 border border-slate-700 text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 5: TERMS CHECKLIST & SUBMISSION -->
+                    <section class="space-y-4">
+                        <div class="flex items-center gap-2 pb-2 border-b border-slate-700">
+                            <span class="w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-sm">5</span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wide">Terms and Conditions (T&C)</h3>
+                        </div>
+
+                        <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl max-h-48 overflow-y-auto custom-scrollbar text-xs text-slate-300 leading-relaxed space-y-2">
+                            <ol class="list-decimal pl-4 space-y-1.5 font-medium">
+                                <li><strong>Eligibility:</strong> Discussion strictly 1-on-1 between matched individuals (Age 6+).</li>
+                                <li><strong>Matching Authority:</strong> Matching individuals 1-to-1 is solely the decision of KTB Digital Services, Bengaluru. No compromise or custom pairing request is possible at all times.</li>
+                                <li><strong>Scope:</strong> Personal and official discussions strictly related to Digital Products only.</li>
+                                <li><strong>Strict Moderation:</strong> Off-topic or inappropriate subjects result in immediate termination without warning or refund.</li>
+                                <li><strong>Registration:</strong> Strictly via email to <span class="text-indigo-400 underline">ktbdigitalservices@gmail.com</span>.</li>
+                                <li><strong>Fee:</strong> INR 199.00 mandatory per discussion slot.</li>
+                                <li><strong>Payment Cut-off:</strong> Payment must be completed 72 hours before the slot time.</li>
+                                <li><strong>Schedule Change:</strong> Time changes permitted only if requested 72 hours earlier.</li>
+                                <li><strong>Refund Policy:</strong> No refund possible once session has started or been attended.</li>
+                                <li><strong>Meeting Link:</strong> Link dispatched 48 hours prior to discussion.</li>
+                                <li><strong>Privacy:</strong> Strictly prohibited from sharing phone numbers, emails, or files during sessions without prior permission.</li>
+                                <li><strong>Authority:</strong> Conducted strictly under KTB Digital Services, Bengaluru.</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-rose-950/20 border border-rose-800/40 p-3.5 rounded-xl flex items-start gap-3">
+                            <input type="checkbox" id="consent" required class="mt-1 h-4 w-4 text-rose-600 focus:ring-rose-500 rounded border-slate-700 bg-slate-900">
+                            <label for="consent" class="text-xs text-rose-300 font-semibold cursor-pointer leading-snug">
+                                I accept all 12 KDHL Terms & Conditions and agree that 1-to-1 matching is solely governed by KTB Digital Services, Bengaluru with no compromise allowed.
+                            </label>
+                        </div>
+                    </section>
+
+                    <div class="pt-4">
+                        <button type="submit" 
+                                class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white font-extrabold text-base shadow-2xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-paper-plane text-xl"></i>
+                            <span>SUBMIT KDHL REGISTRATION VIA EMAIL</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB 2: SESSION CONFIRMATION EMAIL MODULE -->
+        <div id="panel-email" class="tab-panel">
+            <div class="glass-card rounded-3xl p-4 sm:p-8 space-y-6">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                    <div>
+                        <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-envelope text-indigo-400 mr-2"></i> Session Confirmation Email Template</h3>
+                        <p class="text-xs text-slate-400">Preview of the confirmation card dispatched upon successful registration.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-100 rounded-2xl p-4 sm:p-8 text-slate-800 font-sans max-w-2xl mx-auto shadow-2xl">
+                    <div class="bg-gradient-to-r from-slate-900 via-indigo-900 to-teal-900 text-white p-6 rounded-2xl text-center space-y-2">
+                        <h2 class="text-lg font-bold uppercase tracking-wide">KDHL On-Line Platform</h2>
+                        <p class="text-xs text-slate-300">KTB DIGITAL HUMAN LIBRARY • 1-ON-1 DISCUSSION</p>
+                    </div>
+
+                    <div class="py-6 space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        <p class="font-bold text-slate-900">Dear [Participant Name],</p>
+                        <p>
+                            Thank you for registering! We are thrilled to confirm your upcoming 1-on-1 digital product discussion. 1-to-1 human communication is the most powerful catalyst to learn, exchange perspectives, and deeply explore the nuances of the digital world.
+                        </p>
+
+                        <div class="bg-slate-50 border-l-4 border-indigo-600 p-4 rounded-r-xl space-y-2 border border-slate-200">
+                            <h4 class="font-bold text-indigo-900 text-sm">📌 Your Session Coordinates</h4>
+                            <div class="grid grid-cols-1 gap-1 text-xs text-slate-600">
+                                <p><strong>📅 Date:</strong> <span class="text-indigo-700 font-bold">[Selected Date, e.g., Nov 1, 2026]</span></p>
+                                <p><strong>⏰ Time Slot:</strong> [Selected Slot, e.g., 9:00 AM – 9:15 AM IST]</p>
+                                <p><strong>🎯 Topic:</strong> [Selected Topic Focus]</p>
+                                <p><strong>🗣️ Language:</strong> [Selected Language]</p>
+                            </div>
+                        </div>
+
+                        <div class="text-center pt-2">
+                            <a href="https://meet.google.com/your-custom-link" target="_blank" class="inline-block px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-full text-xs shadow-lg hover:shadow-xl">
+                                📹 Click Here to Join Google Meet
+                            </a>
+                            <p class="text-[10px] text-slate-400 mt-2">Link: https://meet.google.com/your-custom-link</p>
+                        </div>
+
+                        <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-xs text-amber-900 space-y-1">
+                            <strong>💡 Pre-Session Checklist:</strong>
+                            <ul class="list-disc list-inside text-[11px] space-y-0.5">
+                                <li>Please join 2–3 minutes before your allocated time.</li>
+                                <li>Ensure a stable internet connection and clean audio.</li>
+                                <li>Sessions are strictly 15 minutes long to honor all participant schedules.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 text-slate-400 p-4 rounded-xl text-center text-[11px] space-y-1">
+                        <strong class="text-white">KTB DIGITAL SERVICES, Bengaluru</strong><br>
+                        Digital Product Creations & Technical Services<br>
+                        Email: ktbdigitalservices@gmail.com | Bengaluru, Karnataka, INDIA<br>
+                        <span class="text-slate-500">© KTB Digital Services. All Rights Reserved.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: CUSTOMER SUPPORT & LEGAL MODULE -->
+        <div id="panel-support" class="tab-panel">
+            <div class="glass-card rounded-3xl p-4 sm:p-8 space-y-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-800">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-white">Legal & Compliance Information</h3>
+                        <p class="text-xs text-slate-400">KTB Digital Services • KDHL On-Line Platform</p>
+                    </div>
+                    <div class="relative w-full md:w-72">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-sm"></i>
+                        <input type="text" id="legalSearch" placeholder="Search terms (e.g., Refund, IP)..." class="w-full pl-9 pr-3 py-2 text-xs bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    </div>
+                </div>
+
+                <div class="space-y-8 text-xs sm:text-sm text-slate-300 leading-relaxed" id="tosContent">
+                    <article class="legal-block space-y-2 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <h4 class="text-sm font-bold text-teal-400">1. Introduction & Acceptance of Terms</h4>
+                        <p>Welcome to <strong>KDHL On-Line Platform</strong> (KTB Digital Human Library), owned and operated by <strong>KTB Digital Services</strong>, Bengaluru, Karnataka, India. By scheduling a session or completing a payment, you agree to these terms in full.</p>
+                    </article>
+
+                    <article class="legal-block space-y-2 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <h4 class="text-sm font-bold text-teal-400">2. Eligibility & Account Responsibilities</h4>
+                        <p>Open to domestic and international clients (Age 6+). Participants must provide accurate contact details and join on time for reserved 15-minute slots.</p>
+                    </article>
+
+                    <article class="legal-block space-y-2 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <h4 class="text-sm font-bold text-teal-400">3. Session Bookings & Payments</h4>
+                        <p>Sessions consist of 15-minute 1-on-1 consultations via Google Meet. Payments are processed securely via Razorpay UPI QR / Stripe in INR (₹199.00).</p>
+                    </article>
+
+                    <article class="legal-block space-y-2 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <h4 class="text-sm font-bold text-teal-400">4. Intellectual Property Rights</h4>
+                        <p>All software applications, web utilities, frameworks, and digital audio materials authored by KTB Digital Services remain its exclusive property.</p>
+                    </article>
+
+                    <article class="legal-block space-y-2 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <h4 class="text-sm font-bold text-teal-400">5. User Conduct & Acceptable Use</h4>
+                        <p>Participants must adhere to professional standards. Abusive language or disruptive behavior will result in immediate termination without refund.</p>
+                    </article>
+
+                    <article class="legal-block space-y-2 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <h4 class="text-sm font-bold text-teal-400">6. Disclaimers & Limitation of Liability</h4>
+                        <p>Information shared during sessions is offered for educational and technical exchange purposes. Consultations do not constitute formal medical or financial guarantees.</p>
+                    </article>
+
+                    <article class="legal-block space-y-2 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <h4 class="text-sm font-bold text-teal-400">7. Governing Law & Jurisdiction</h4>
+                        <p>Governed by the laws of India. Any legal dispute shall be subject to the exclusive jurisdiction of the competent courts in <strong>Bengaluru, Karnataka, India</strong>.</p>
+                    </article>
+
+                    <article class="legal-block space-y-2 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <h4 class="text-sm font-bold text-teal-400">8. Contact Information</h4>
+                        <p><strong>KTB DIGITAL SERVICES</strong><br>Email: ktbdigitalservices@gmail.com<br>Location: HSR Layout, Bengaluru, Karnataka, INDIA</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: TERMS OF SERVICE & REFUND POLICY MODULE -->
+        <div id="panel-terms" class="tab-panel">
+            <div class="glass-card rounded-3xl p-4 sm:p-8 space-y-8">
+                <div>
+                    <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-teal-500/10 text-teal-300 border border-teal-500/30 uppercase">Merchant Legal Policy</span>
+                    <h3 class="text-2xl font-extrabold text-white mt-2">Terms of Service & Refund Policy</h3>
+                    <p class="text-xs text-slate-400 mt-1">KTB DIGITAL SERVICE • Bengaluru, India</p>
+                </div>
+
+                <div class="space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    <section class="space-y-2 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <h4 class="font-bold text-white text-base">1. Non-Refundable Policy & Rescheduling</h4>
+                        <p>Individual calendar slots reserve dedicated consultant time. Payments are non-refundable once booked unless written cancellation is emailed 48 hours prior. Reschedule requests must be emailed to <a href="mailto:ktbdigitalservices@gmail.com" class="text-indigo-400 underline">ktbdigitalservices@gmail.com</a> at least 12 hours prior to the slot time.</p>
+                    </section>
+
+                    <section class="space-y-2 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <h4 class="font-bold text-white text-base">2. Merchant Identity & Verification Contact</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-2">
+                            <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 space-y-1">
+                                <p class="font-bold text-indigo-300">Merchant Entity</p>
+                                <p class="text-white font-semibold">KTB DIGITAL SERVICE</p>
+                                <p class="text-slate-400">Sole Proprietorship, Bengaluru, India</p>
+                            </div>
+                            <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 space-y-1">
+                                <p class="font-bold text-indigo-300">Registered Office Address</p>
+                                <p class="text-slate-300">Building #102, Ramakrishnappa Building, Sector 1, HSR Layout, Bengaluru – 560102, Karnataka, INDIA</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-2 bg-indigo-950/30 p-5 rounded-2xl border border-indigo-500/30">
+                        <h4 class="font-bold text-indigo-200 text-base">Summary of Terms</h4>
+                        <p class="text-slate-300">By booking a session through KTB Digital Services (KDHL On-Line), users accept terms governing consultations in digital products, cellular nutrition models, software, regional arts, games, and music. Bookings are processed securely in INR (₹199.00), after which Google Meet links are generated. All proprietary materials and frameworks remain the exclusive intellectual property of KTB Digital Services, Bengaluru, India.</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- BOTTOM FOOTER (LOGO PLACEMENT 2 OF 2) -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 py-8 text-xs text-slate-400 mt-auto no-print">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <div class="flex justify-center items-center gap-3">
+                <!-- LOGO INSTANCE 2 -->
+                <img src="https://raw.githubusercontent.com/ktbabusuppalu/KTB-DIGITAL-HUMAN-LIBRARY-On-Line/main/LOGO.png" 
+                     alt="KTB Digital Services Logo" 
+                     class="h-8 w-auto rounded bg-white p-0.5 object-contain"
+                     onerror="this.onerror=null; this.src='https://placehold.co/100x40/ffffff/0f172a?text=KTB+Logo';">
+                <span class="font-bold text-slate-200">KTB DIGITAL SERVICES</span>
+            </div>
+            <p>HSR Layout, Bengaluru, Karnataka, India • Email: <a href="mailto:ktbdigitalservices@gmail.com" class="text-indigo-400 hover:underline">ktbdigitalservices@gmail.com</a></p>
+            <p class="text-slate-500">© KTB Digital Human Library (KDHL On-Line). All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE APP LOGIC -->
+    <script>
+        let selectedDate = null;
+        let selectedSlot = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCalendars();
+            initSlotSelection();
+            initLegalSearch();
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+
+            const activePanel = document.getElementById(`panel-${tabId}`);
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+
+            if (activePanel) activePanel.classList.add('active');
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        function renderCalendars() {
+            renderMonthGrid('nov2026Grid', 2026, 10, 30, 0);
+            renderMonthGrid('dec2026Grid', 2026, 11, 31, 2);
+        }
+
+        function renderMonthGrid(gridId, year, monthIndex, totalDays, startDayOfWeek) {
+            const grid = document.getElementById(gridId);
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            for (let i = 0; i < startDayOfWeek; i++) {
+                const blank = document.createElement('div');
+                blank.className = 'py-2';
+                grid.appendChild(blank);
+            }
+
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+            for (let day = 1; day <= totalDays; day++) {
+                const dayBtn = document.createElement('button');
+                dayBtn.type = 'button';
+                dayBtn.className = 'calendar-day py-2 px-1 rounded-lg font-semibold bg-slate-800/90 hover:bg-indigo-600/50 text-slate-200 transition-all border border-slate-700/60';
+                dayBtn.innerText = day;
+
+                const dateStr = `${monthNames[monthIndex]} ${day}, ${year}`;
+                dayBtn.setAttribute('data-date', dateStr);
+
+                dayBtn.addEventListener('click', () => {
+                    document.querySelectorAll('.calendar-day').forEach(b => b.classList.remove('selected'));
+                    dayBtn.classList.add('selected');
+                    selectedDate = dateStr;
+
+                    const display = document.getElementById('selectedDateDisplay');
+                    if (display) {
+                        display.innerHTML = `<i class="fa-solid fa-calendar-check text-emerald-400"></i> ${selectedDate}`;
+                    }
+                });
+
+                grid.appendChild(dayBtn);
+            }
+        }
+
+        function initSlotSelection() {
+            const slotBtns = document.querySelectorAll('.slot-chip');
+            slotBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    slotBtns.forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedSlot = btn.getAttribute('data-slot');
+                });
+            });
+        }
+
+        function initLegalSearch() {
+            const searchInput = document.getElementById('legalSearch');
+            if (!searchInput) return;
+
+            searchInput.addEventListener('input', function(e) {
+                const filter = e.target.value.toLowerCase().trim();
+                const blocks = document.querySelectorAll('.legal-block');
+
+                blocks.forEach(block => {
+                    const text = block.innerText.toLowerCase();
+                    if (text.includes(filter)) {
+                        block.style.display = "block";
+                    } else {
+                        block.style.display = "none";
+                    }
+                });
+            });
+        }
+
+        function sendRegistration(e) {
+            e.preventDefault();
+
+            if (!selectedDate) {
+                alert('Please select a preferred date from the calendar (Nov 1 - Dec 31, 2026).');
+                return;
+            }
+
+            if (!selectedSlot) {
+                alert('Please select a preferred time slot chip.');
+                return;
+            }
+
+            const name = document.getElementById('fullName').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const genderElem = document.querySelector('input[name="gender"]:checked');
+            const gender = genderElem ? genderElem.value : '';
+            const session = document.getElementById('sessionType').value;
+            const lang = document.getElementById('language').value;
+            const topic = document.getElementById('topic').value.trim();
+            const utr = document.getElementById('utr').value.trim();
+
+            const bodyText = `KDHL On-Line Registration Details:\n\n` +
+                `1. Name: ${name}\n` +
+                `2. Age: ${age}\n` +
+                `3. Gender: ${gender}\n` +
+                `4. Session: ${session}\n` +
+                `5. Language: ${lang}\n` +
+                `6. Scheduled Date: ${selectedDate}\n` +
+                `7. Time Slot: ${selectedSlot}\n` +
+                `8. Topic Focus: ${topic}\n` +
+                `9. Fee Paid: INR 199.00\n` +
+                `10. UPI UTR ID: ${utr}\n\n` +
+                `I agree to all 12 KDHL Terms & Conditions and accept that 1-to-1 matching is solely decided by KTB Digital Services, Bengaluru, Karnataka, INDIA.`;
+
+            const subject = `KDHL Registration - ${name} (${selectedDate})`;
+            const mailtoUrl = `mailto:ktbdigitalservices@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+
+            window.location.href = mailtoUrl;
+        }
+    </script>
+</body>
+</html>
